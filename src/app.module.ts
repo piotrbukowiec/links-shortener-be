@@ -11,17 +11,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        type: configService.get<'postgres'>('DB_TYPE'),
-        host: configService.get<string>('DB_HOST'),
-        port: configService.get<number>('DB_PORT'),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: 'links_shortener',
-        entities: [__dirname + '/**/*.entity{.js,.ts}'],
-        logging: true,
-        synchronize: true,
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const getEnv = <T>(envVar: string) => configService.get<T>(envVar);
+        return {
+          type: getEnv<'postgres'>('DB_TYPE'),
+          host: getEnv<string>('DB_HOST'),
+          port: getEnv<number>('DB_PORT'),
+          username: getEnv<string>('DB_USERNAME'),
+          password: getEnv<string>('DB_PASSWORD'),
+          database: 'links_shortener',
+          entities: [__dirname + '/**/*.entity{.js,.ts}'],
+          logging: true,
+          synchronize: true,
+        };
+      },
     }),
     LinksModule,
   ],
