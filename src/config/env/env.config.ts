@@ -1,8 +1,5 @@
-import { registerAs } from '@nestjs/config';
-import { EnvConfigDto } from 'src/env-config/dto/env-config.dto';
-import { EnvConfigService } from 'src/env-config/env-config.service';
+import { ConfigModuleOptions } from '@nestjs/config';
 
-export const envConfig = registerAs('env', async () => {
-  const envConfigService = new EnvConfigService();
-  return await envConfigService.readConfig(EnvConfigDto);
-});
+export const envConfig: ConfigModuleOptions = {
+  isGlobal: true,
+};

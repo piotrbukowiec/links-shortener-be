@@ -10,8 +10,8 @@ import { envConfig } from './config/env/env.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    ConfigModule.forFeature(envConfig),
+    ConfigModule.forRoot(envConfig),
+    // ConfigModule.forFeature(envConfig),
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     LinksModule,
   ],

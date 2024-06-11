@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { exit } from 'process';
 import { EnvConfig } from 'src/types/env.config';
 
 @Injectable()
@@ -12,6 +11,7 @@ export class EnvConfigService {
     const config = plainToInstance(constructor, process.env, {
       excludeExtraneousValues: true,
     });
+
     const errors = await validate(config);
 
     if (errors.length) {
@@ -21,8 +21,6 @@ export class EnvConfigService {
           : 'unknown error';
         Logger.error(`Env validation error: ${constraintsMessage}`);
       });
-      // exit(1);
-      
     }
 
     return config;

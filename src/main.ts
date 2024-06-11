@@ -12,9 +12,9 @@ const bootstrap = async () => {
     .setVersion('1.0')
     .build();
 
-  const configService = app.get(ConfigService);
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
+  const configService = app.get(ConfigService);
   await app.listen(configService.get<number>('APP_PORT'));
 };
 bootstrap();
