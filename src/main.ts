@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 
 const bootstrap = async () => {
   const app = await NestFactory.create(AppModule);
+  await app.enableShutdownHooks();
   const config = new DocumentBuilder()
     .setTitle('Link shortener documentation')
     .setDescription('Documentation of link shortener app')
