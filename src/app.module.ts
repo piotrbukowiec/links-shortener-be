@@ -1,10 +1,21 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LinksModule } from './links/links.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeOrmConfigAsync } from './config/typeorm.config';
+import { DbModule } from './db/db.module';
 
 @Module({
-  imports: [LinksModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync(typeOrmConfigAsync),
+    LinksModule,
+    DbModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
