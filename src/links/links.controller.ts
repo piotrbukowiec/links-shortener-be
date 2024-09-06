@@ -13,7 +13,9 @@ import { LinksService } from './links.service';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
 
-@Controller('links')
+@Controller({
+  host: process.env.APP_HOST,
+})
 export class LinksController {
   constructor(private readonly linksService: LinksService) {}
 
@@ -29,22 +31,22 @@ export class LinksController {
     return this.linksService.findAll();
   }
 
-  // @Get(':id')
-  // async findOne(@Param('id') id: string) {
-  //   return this.linksService.findOne(id);
-  // }
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.linksService.findOne(id);
+  }
 
   // @Patch(':id')
   // async update(@Param('id') id: string, @Body() updateLinkDto: UpdateLinkDto) {
   //   return this.linksService.update(id, updateLinkDto);
   // }
 
-  @Get('/:shortUrl')
-  @HttpCode(HttpStatus.PERMANENT_REDIRECT)
-  @Redirect()
-  async redirect(@Param('shortUrl') shortUrl: string) {
-    return this.linksService.redirect(shortUrl);
-  }
+  // @Get('/redirect/:shortUrl')
+  // @HttpCode(HttpStatus.PERMANENT_REDIRECT)
+  // @Redirect()
+  // async redirect(@Param('shortUrl') shortUrl: string) {
+  //   return this.linksService.redirect(shortUrl);
+  // }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)

@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
 import { LinkEntity } from './entities/link.entity';
+import { ensureProtocol } from 'src/utils/ensure-protocol';
+import { url } from 'inspector';
 
 @Injectable()
 export class LinksService {
@@ -21,11 +23,11 @@ export class LinksService {
     return await LinkEntity.find();
   }
 
-  // async findOne(id: string): Promise<LinkEntity> {
-  //   const link = await this.findOneById(id);
-  //   if (!link) throw new NotFoundException('Link not found');
-  //   return link;
-  // }
+  async findOne(id: string): Promise<LinkEntity> {
+    const link = await this.findOneById(id);
+    if (!link) throw new NotFoundException('Link not found');
+    return link;
+  }
 
   // async update(id: string, updateLinkDto: UpdateLinkDto) {
   //   return `This action updates a #${id} link`;
@@ -54,10 +56,7 @@ export class LinksService {
 
     const { longUrl } = link;
 
-    const finalUrl =
-      longUrl.startsWith('http://') || longUrl.startsWith('https://')
-        ? longUrl
-        : 'http://' + longUrl;
+    const finalUrl = ensureProtocol(longUrl);
 
     return {
       url: finalUrl,

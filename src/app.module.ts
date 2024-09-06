@@ -1,4 +1,4 @@
-import { Logger, Module } from '@nestjs/common';
+import { forwardRef, Logger, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LinksModule } from './links/links.module';
@@ -13,7 +13,7 @@ import { DbModule } from './db/db.module';
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync(typeOrmConfigAsync),
-    LinksModule,
+    forwardRef(() => LinksModule),
     DbModule,
   ],
   controllers: [AppController],

@@ -1,6 +1,6 @@
 import { BasicEntity } from 'src/db/entities/basic.entity';
 import { ILinkEntity } from 'src/types/link';
-import { generateRandStr } from 'src/utils/generate-rand-str';
+import { generateUniqueShortUrl } from 'src/utils/generate-random-short-url';
 import { BeforeInsert, Column, Entity } from 'typeorm';
 
 @Entity()
@@ -19,7 +19,9 @@ export class LinkEntity extends BasicEntity implements ILinkEntity {
   shortUrl: string;
 
   @BeforeInsert()
-  setRandShortUrl() {
-    if (!this.shortUrl) this.shortUrl = generateRandStr();
+  async setRandShortUrl() {
+    if (!this.shortUrl) {
+      this.shortUrl = await generateUniqueShortUrl();
+    }
   }
 }
