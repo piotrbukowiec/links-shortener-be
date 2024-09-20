@@ -1,17 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateLinkDto } from './dto/create-link.dto';
-import { UpdateLinkDto } from './dto/update-link.dto';
 import { LinkEntity } from './entities/link.entity';
 import { ensureProtocol } from 'src/utils/ensure-protocol';
-import { url } from 'inspector';
 
 @Injectable()
 export class LinksService {
   async create({ longUrl }: CreateLinkDto): Promise<LinkEntity> {
     const existingLink = await this.findOneByLongUrl(longUrl);
+
     if (existingLink) return existingLink;
 
     const link = new LinkEntity();
+
     Object.assign(link, {
       longUrl,
     });

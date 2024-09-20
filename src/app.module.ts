@@ -2,7 +2,7 @@ import { forwardRef, Logger, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LinksModule } from './links/links.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfigAsync } from './config/typeorm.config';
 import { DbModule } from './db/db.module';
@@ -14,7 +14,7 @@ import { DbModule } from './db/db.module';
     }),
     TypeOrmModule.forRootAsync(typeOrmConfigAsync),
     forwardRef(() => LinksModule),
-    DbModule,
+    forwardRef(() => DbModule),
   ],
   controllers: [AppController],
   providers: [AppService],

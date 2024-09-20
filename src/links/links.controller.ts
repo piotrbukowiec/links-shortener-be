@@ -1,21 +1,19 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
+  Controller,
   Delete,
-  Redirect,
-  HttpStatus,
+  Get,
   HttpCode,
+  HttpStatus,
+  Param,
+  Post,
 } from '@nestjs/common';
-import { LinksService } from './links.service';
 import { CreateLinkDto } from './dto/create-link.dto';
-import { UpdateLinkDto } from './dto/update-link.dto';
+import { LinksService } from './links.service';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller({
-  host: process.env.APP_HOST,
-})
+@ApiTags('Links')
+@Controller('links')
 export class LinksController {
   constructor(private readonly linksService: LinksService) {}
 
@@ -26,7 +24,7 @@ export class LinksController {
   }
 
   @Get('/')
-  @HttpCode(HttpStatus.FOUND)
+  @HttpCode(HttpStatus.OK)
   async findAll() {
     return this.linksService.findAll();
   }
@@ -35,18 +33,6 @@ export class LinksController {
   async findOne(@Param('id') id: string) {
     return this.linksService.findOne(id);
   }
-
-  // @Patch(':id')
-  // async update(@Param('id') id: string, @Body() updateLinkDto: UpdateLinkDto) {
-  //   return this.linksService.update(id, updateLinkDto);
-  // }
-
-  // @Get('/redirect/:shortUrl')
-  // @HttpCode(HttpStatus.PERMANENT_REDIRECT)
-  // @Redirect()
-  // async redirect(@Param('shortUrl') shortUrl: string) {
-  //   return this.linksService.redirect(shortUrl);
-  // }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
